@@ -1,7 +1,10 @@
-﻿using CarRental.Infrastructure;
+﻿using CarRental.ApplicationService.CarRegistry.Interface;
+using CarRental.Common.Models;
+using CarRental.Infrastructure;
+
 namespace CarRental.ApplicationService.CarRegistry
 {
-    public class CarRegistryApplicationService
+    public class CarRegistryApplicationService : ICarRegistryApplicationService
     {
         private readonly IUnknownDataStorage _unknownDataStorage;
 
@@ -10,25 +13,34 @@ namespace CarRental.ApplicationService.CarRegistry
             _unknownDataStorage = unknownDataStorage;
         }
 
-        void RegisterCarForDelivery()
+        public Task RegisterCarForDelivery(CarRegistered carRegistered)
         {
-            _unknownDataStorage.RegisterCarForDelivery();
-            //basdygnhyra*antaldyygn*basdygnshyramodifier+baskmpris*antalkm*baskmprismodifier
-            //400*5*1 + 100*50*0
-            //400*5*1.3 + 100*50*1
-            //400*5*1.5 + 100*50*1.5
+            return _unknownDataStorage.RegisterCarForDelivery(carRegistered);
         }
 
-        void RegisterCarForReturn()
+        public async Task<decimal> RegisterCarForReturn(CarRegistered carRegistered)
         {
-            const string bookingId = "hej";
+            var car = await _unknownDataStorage.GetRegisteredCar(carRegistered.BookingNumber);
 
-            var car = _unknownDataStorage.GetRegisteredCar(bookingId);
-            var carTypePrices = _unknownDataStorage.GetCarTypePrices(car.CarType);
+            var carTypePrices = await _unknownDataStorage.GetCarTypePrices(car.CarType);
 
-            var price = CalculateRentalPrice.Calculate(carTypePrices.BasDygnsHyra, 1, (decimal)carTypePrices.BasDygnsHyraModifier, carTypePrices.BasKmPris, 1, (decimal)carTypePrices.BasDygnsHyraModifier);
+            var updatedCar = UpdateCarRegistration(car, carRegistered);
 
-            _unknownDataStorage.RegisterCarForReturn();
+            var price = CalculateRentalPrice.Calculate(updatedCar, carTypePrices);
+
+            updatedCar.Price = price;
+
+            await _unknownDataStorage.RegisterCarForReturn(updatedCar);
+
+            return price;
+        }
+
+        private CarRegistered UpdateCarRegistration(CarRegistered car, CarRegistered carRegistered)
+        {
+            car.Returned = carRegistered.Returned;
+            car.EndMileageInKm = carRegistered.EndMileageInKm;
+
+            return car;
         }
     }
 }

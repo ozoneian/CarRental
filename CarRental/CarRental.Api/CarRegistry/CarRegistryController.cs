@@ -15,15 +15,15 @@ namespace CarRental.Api.CarRegistry
         }
 
         [HttpPost("RegisterDelivery")]
-        public void DeliverCar(CarDeliveryRegistration carDeliveryRegistration)
+        public async Task DeliverCar(CarDeliveryRegistration carDeliveryRegistration)
         {
-            _carRegistryRestService.RegisterDelivery(carDeliveryRegistration);
+            await _carRegistryRestService.RegisterDelivery(carDeliveryRegistration);
         }
 
         [HttpPost("RegisterReturn")]
-        public decimal ReturnCarAndGetPayment(CarReturnRegistration carReturnRegistration)
+        public async Task<decimal> ReturnCarAndGetPayment(CarReturnRegistration carReturnRegistration)
         {
-            return _carRegistryRestService.RegisterReturn(carReturnRegistration);
+            return await _carRegistryRestService.RegisterReturn(carReturnRegistration);
         }
     }
 }

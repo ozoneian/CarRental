@@ -4,9 +4,10 @@ namespace CarRental.Infrastructure
 {
     public interface IUnknownDataStorage
     {
-        void RegisterCarForDelivery(CarRegistered carRegistered);
-        CarRegistered GetRegisteredCar(string bookingId);
+        Task RegisterCarForDelivery(CarRegistered carRegistered);
+        Task RegisterCarForReturn(CarRegistered carRegistered);
+        Task<CarRegistered> GetRegisteredCar(string bookingId);
 
-        CarTypePrice GetCarTypePrices(int carType);
+        Task<CarTypePrice> GetCarTypePrices(int carType);
     }
 }

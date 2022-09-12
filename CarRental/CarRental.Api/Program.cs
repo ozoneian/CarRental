@@ -1,6 +1,14 @@
+using CarRental.Api.CarRegistry;
+using CarRental.ApplicationService.CarRegistry;
+using CarRental.ApplicationService.CarRegistry.Interface;
+using CarRental.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddTransient<ICarRegistryRestService, CarRegistryRestService>();
+builder.Services.AddTransient<ICarRegistryApplicationService, CarRegistryApplicationService>();
+builder.Services.AddSingleton<IUnknownDataStorage, FakeDataStorage>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -4,8 +4,8 @@
     {
         public int CarTypeId { get; set; }
         public decimal BasDygnsHyra { get; set; }
-        public double BasDygnsHyraModifier { get; set; }
+        public decimal BasDygnsHyraModifier { get; set; }
         public decimal BasKmPris { get; set; }
-        public double BasKmPrisModifier { get; set; }
+        public decimal BasKmPrisModifier { get; set; }
     }
 }

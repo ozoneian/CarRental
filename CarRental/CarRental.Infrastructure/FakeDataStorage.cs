@@ -4,19 +4,24 @@ namespace CarRental.Infrastructure
 {
     public class FakeDataStorage : IUnknownDataStorage
     {
-        public CarTypePrice GetCarTypePrices(int carType)
+        public Task<CarTypePrice> GetCarTypePrices(int carType)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
-        public CarRegistered GetRegisteredCar(string bookingId)
+        public Task<CarRegistered> GetRegisteredCar(string bookingId)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
-        public void RegisterCarForDelivery(CarRegistered carRegistered)
+        public Task RegisterCarForDelivery(CarRegistered carRegistered)
         {
-            throw new NotImplementedException();
+            return null;
+        }
+
+        public Task RegisterCarForReturn(CarRegistered carRegistered)
+        {
+            return null;
         }
     }
 }

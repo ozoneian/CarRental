@@ -4,7 +4,7 @@ namespace CarRental.Api.CarRegistry
 {
     public interface ICarRegistryRestService
     {
-        void RegisterDelivery(CarDeliveryRegistration carDeliveryRegistration);
-        decimal RegisterReturn(CarReturnRegistration carReturnRegistration);
+        Task RegisterDelivery(CarDeliveryRegistration carDeliveryRegistration);
+        Task<decimal> RegisterReturn(CarReturnRegistration carReturnRegistration);
     }
 }
